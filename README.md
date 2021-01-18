@@ -3,7 +3,7 @@
 docker pull confluentinc/cp-zookeeper
 docker pull confluentinc/cp-server
 
-##Create docker network
+## Create docker network
 docker network create mynet
 
 ## Run Zookeeper in docker 
