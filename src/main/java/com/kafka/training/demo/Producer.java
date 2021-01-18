@@ -1,4 +1,4 @@
-package com.kafka.training.demo1;
+package com.kafka.training.demo;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -20,14 +20,14 @@ public class Producer {
 
             //Configure the Producer
             Properties configProperties = new Properties();
-            configProperties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,"localhost:9092");
-            configProperties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,"org.apache.kafka.common.serialization.StringSerializer");
-            configProperties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,"org.apache.kafka.common.serialization.StringSerializer");
+            configProperties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+            configProperties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.ByteArraySerializer");
+            configProperties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
 
             org.apache.kafka.clients.producer.Producer producer = new KafkaProducer<String, String>(configProperties);
             String line = in.nextLine();
             while(!line.equals("exit")) {
-                ProducerRecord<String, String> rec = new ProducerRecord<String, String>(topicName, line);
+                ProducerRecord<String, String> rec = new ProducerRecord<>(topicName, line);
                 producer.send(rec);
                 line = in.nextLine();
             }

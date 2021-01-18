@@ -1,4 +1,4 @@
-package com.kafka.training.demo1;
+package com.kafka.training.demo;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -13,7 +13,6 @@ import java.util.Scanner;
 
 public class Consumer {
     private static Scanner in;
-    private static boolean stop = false;
 
     public static void main(String[] argv)throws Exception{
         if (argv.length != 2) {
@@ -48,13 +47,13 @@ public class Consumer {
         public void run() {
             Properties configProperties = new Properties();
             configProperties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
-            configProperties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
+            configProperties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.ByteArrayDeserializer");
             configProperties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
             configProperties.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
             configProperties.put(ConsumerConfig.CLIENT_ID_CONFIG, "simple");
 
             //Figure out where to start processing messages from
-            kafkaConsumer = new KafkaConsumer<String, String>(configProperties);
+            kafkaConsumer = new KafkaConsumer<>(configProperties);
             kafkaConsumer.subscribe(Arrays.asList(topicName));
             //Start processing messages
             try {

@@ -24,17 +24,19 @@ docker run -d \
   -e KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1 \
  confluentinc/cp-kafka
 # Run Kafka in CLI       
-#$ List all topics:
+## List all topics:
 docker exec -it broker kafka-topics --list --bootstrap-server localhost:9092
 
 ## Create first topic:
 docker exec -it broker kafka-topics --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic firstTopic
 
-## Produce messages
-docker exec -it broker kafka-console-producer --bootstrap-server localhost:9092 --topic firstTopic
 
 ## Consume messages
 docker exec -it broker kafka-console-consumer --bootstrap-server localhost:9092 --topic firstTopic --from-beginning
+
+## Produce messages
+docker exec -it broker kafka-console-producer --bootstrap-server localhost:9092 --topic firstTopic
+
 # Example application with Apache Kafka
 ## Create second topic:
-docker exec -it broker kafka-topics --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic firstTopic
+docker exec -it broker kafka-topics --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic secondTopic
