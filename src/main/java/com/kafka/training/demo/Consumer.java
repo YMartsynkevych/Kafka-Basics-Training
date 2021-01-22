@@ -38,7 +38,7 @@ public class Consumer {
     private static class ConsumerThread extends Thread{
         private String topicName;
         private String groupId;
-        private KafkaConsumer<String,String> kafkaConsumer;
+        private KafkaConsumer<Integer, String> kafkaConsumer;
 
         public ConsumerThread(String topicName, String groupId){
             this.topicName = topicName;
@@ -47,7 +47,7 @@ public class Consumer {
         public void run() {
             Properties configProperties = new Properties();
             configProperties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
-            configProperties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.ByteArrayDeserializer");
+            configProperties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.IntegerDeserializer");
             configProperties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringDeserializer");
             configProperties.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
             configProperties.put(ConsumerConfig.CLIENT_ID_CONFIG, "simple");
@@ -58,18 +58,21 @@ public class Consumer {
             //Start processing messages
             try {
                 while (true) {
-                    ConsumerRecords<String, String> records = kafkaConsumer.poll(Duration.ofMillis(100));
-                    for (ConsumerRecord<String, String> record : records)
-                        System.out.println(record.value());
+                    ConsumerRecords<Integer, String> records = kafkaConsumer.poll(Duration.ofMillis(100));
+                    for (ConsumerRecord<Integer, String> record : records) {
+                        System.out.print("Key:" + record.key());
+                        System.out.println(" Value:" + record.value());
+                    }
                 }
-            }catch(WakeupException ex){
+            } catch (WakeupException ex) {
                 System.out.println("Exception caught " + ex.getMessage());
-            }finally{
+            } finally {
                 kafkaConsumer.close();
                 System.out.println("After closing KafkaConsumer");
             }
         }
-        public KafkaConsumer<String,String> getKafkaConsumer(){
+
+        public KafkaConsumer<Integer, String> getKafkaConsumer() {
             return this.kafkaConsumer;
         }
     }
