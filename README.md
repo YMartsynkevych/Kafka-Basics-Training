@@ -2,7 +2,7 @@
 ## Pull Zookeeper and Kafka images
 docker pull confluentinc/cp-zookeeper 
 
-docker pull confluentinc/cp-server
+docker pull confluentinc/cp-kafka
 
 ## Create docker network
 docker network create mynet
